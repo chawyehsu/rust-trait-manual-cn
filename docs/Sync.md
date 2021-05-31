@@ -7,6 +7,8 @@ Trait core::marker::[Sync][1]
 pub unsafe auto trait Sync { }
 ```
 
+## 注释
+
 （标记）类型可以安全地跨线程传递不可边引用，即跨线程共享。
 
 当编译器判定如果情况合适，该 trait 会被自动实现。
