@@ -19,8 +19,8 @@ pub unsafe auto trait Send { }
 
 ## 拓展阅读
 
-- [实现列表][6]
-- [The Rustonomicon: Send and Sync][7]
+- [Send 的实现列表][6]
+- [The Rustonomicon: Send and Sync][5]
 
 [1]: https://doc.rust-lang.org/core/marker/trait.Send.html
 [2]: https://doc.rust-lang.org/std/rc/struct.Rc.html
@@ -28,4 +28,3 @@ pub unsafe auto trait Send { }
 [4]: https://doc.rust-lang.org/std/sync/struct.Arc.html
 [5]: https://doc.rust-lang.org/nomicon/send-and-sync.html
 [6]: https://doc.rust-lang.org/core/marker/trait.Send.html#implementors
-[7]: https://doc.rust-lang.org/nomicon/send-and-sync.html
