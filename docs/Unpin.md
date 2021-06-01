@@ -39,6 +39,7 @@ mem::replace(&mut *pinned_string, "other".to_string());
 ## 拓展阅读
 
 - [Unpin 的实现列表][5]
+- [Rust的Pin与Unpin][6]
 
 
 [1]: https://doc.rust-lang.org/core/marker/trait.Unpin.html
@@ -46,3 +47,4 @@ mem::replace(&mut *pinned_string, "other".to_string());
 [3]: https://doc.rust-lang.org/core/pin/struct.Pin.html
 [4]: https://doc.rust-lang.org/core/pin/index.html
 [5]: https://doc.rust-lang.org/core/marker/trait.Unpin.html#implementors
+[6]: https://folyd.com/blog/rust-pin-unpin/
