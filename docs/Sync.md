@@ -25,7 +25,7 @@ pub unsafe auto trait Sync { }
 
 Rust 提供了[原子类型][6]与显式锁 [`sync::Mutex`][7] 和 [`sync::RwLock`][8] 来应对需要线程安全的内部可变性的用例。这些类型确保了任意修改操作不会造成数据竞争，所以它们是 `Sync` 的。类似地，[`sync::Arc`][9] 提供了一个线程安全版的 Rc。
 
-同时，任何具有内部可变性的类型必定要使用 `cell::UnsafeCell` 来包裹其内部值以实现通过不可变引用来进行修改操作。如果不这么做会造成未定义行为。例如，用 [`transmute`][10] 将 `&T` 转换为 `&mut T` 是无效的。
+同时，任何具有内部可变性的类型必定要使用 [`cell::UnsafeCell`][13] 来包裹其内部值以实现通过不可变引用来进行修改操作。如果不这么做会造成未定义行为。例如，用 [`transmute`][10] 将 `&T` 转换为 `&mut T` 是无效的。
 
 `Sync` 的更多细节可以查看[死灵书][11]。
 
@@ -47,3 +47,4 @@ Rust 提供了[原子类型][6]与显式锁 [`sync::Mutex`][7] 和 [`sync::RwLoc
 [10]: https://doc.rust-lang.org/core/mem/fn.transmute.html
 [11]: https://doc.rust-lang.org/nomicon/send-and-sync.html
 [12]: https://doc.rust-lang.org/core/marker/trait.Sync.html#implementors
+[13]: https://doc.rust-lang.org/core/cell/struct.UnsafeCell.html
