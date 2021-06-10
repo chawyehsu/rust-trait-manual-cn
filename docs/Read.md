@@ -11,33 +11,33 @@ pub trait Read {
 
     #[stable(feature = "iovec", since = "1.36.0")]
     fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> Result<usize> {
-        default_read_vectored(|b| self.read(b), bufs)
+        ...
     }
 
     #[unstable(feature = "can_vector", issue = "69941")]
     fn is_read_vectored(&self) -> bool {
-        false
+        ...
     }
 
     #[unstable(feature = "read_initializer", issue = "42788")]
     #[inline]
     unsafe fn initializer(&self) -> Initializer {
-        Initializer::zeroing()
+        ...
     }
 
     #[stable(feature = "rust1", since = "1.0.0")]
     fn read_to_end(&mut self, buf: &mut Vec<u8>) -> Result<usize> {
-        read_to_end(self, buf)
+        ...
     }
 
     #[stable(feature = "rust1", since = "1.0.0")]
     fn read_to_string(&mut self, buf: &mut String) -> Result<usize> {
-        append_to_string(buf, |b| read_to_end(self, b))
+        ...
     }
 
     #[stable(feature = "read_exact", since = "1.6.0")]
     fn read_exact(&mut self, buf: &mut [u8]) -> Result<()> {
-        default_read_exact(self, buf)
+        ...
     }
 
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -45,7 +45,7 @@ pub trait Read {
     where
         Self: Sized,
     {
-        self
+        ...
     }
 
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -53,7 +53,7 @@ pub trait Read {
     where
         Self: Sized,
     {
-        Bytes { inner: self }
+        ...
     }
 
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -61,7 +61,7 @@ pub trait Read {
     where
         Self: Sized,
     {
-        Chain { first: self, second: next, done_first: false }
+        ...
     }
 
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -69,7 +69,7 @@ pub trait Read {
     where
         Self: Sized,
     {
-        Take { inner: self, limit }
+        ...
     }
 }
 ```
@@ -140,9 +140,9 @@ fn read(&mut self, buf: &mut [u8]) -> Result<usize>
 
 从当前源中读取字节到提供的缓存区中，并返回读取了多少字节。
 
-该方法不保证是否阻塞以等待数据，但是如果对象需要阻塞读取却无法进行，那么它会返回一个 `Err` 值。
+该方法不保证是否阻塞以等待数据，但是如果对象需要阻塞读取却无法进行，那么它会返回一个 [`Err`][8] 值。
 
-当该方法返回值是 `Ok(n)` 时，该方法的实现必须保证 `0 <= n <= buf.len()`。 `n` 非零时表示从当前源中读取了 `n` 字节到缓冲区 `buf` 中。当 `n` 值为零时，它表示以下两种情况中的一种：
+当该方法返回值是 [`Ok(n)`][9] 时，该方法的实现必须保证 `0 <= n <= buf.len()`。 `n` 非零时表示从当前源中读取了 `n` 字节到缓冲区 `buf` 中。当 `n` 值为零时，它表示以下两种情况中的一种：
 
 1. 读取器已经读到了当前“文件尾”，无法再读取更多字节。注意这并不表示该读取器*永远*无法再读取更多字节。
 2. 指定缓冲区的大小为 0。
@@ -153,13 +153,13 @@ fn read(&mut self, buf: &mut [u8]) -> Result<usize>
 
 调用该方法时由于提供的缓冲区 `buf` 不会对其内容有任何保证，所以实现该方法时不能依赖 `buf` 中的任何内容属性。建议*实现*只往 `buf` 中写数据s而不读取其内容。
 
-相应的，*调用方*也不应假设该方法的实现对如何使用 `buf` 有任何的保证。在实现该特质时，本是写缓冲区的代码实现成读缓冲区，这是有可能的，对实现也是安全的。因此在调用 `read()` 前作为调用方你有责任确保 `buf` 已被初始化。用一个（通过 `MaybeUninit<T>` 获取到的）未初始化的 `buf` 来调用 `read()` 是不安全的，可能会导致未定义行为。
+相应的，*调用方*也不应假设该方法的实现对如何使用 `buf` 有任何的保证。在实现该特质时，本是写缓冲区的代码实现成读缓冲区，这是有可能的，对实现也是安全的。因此在调用 `read()` 前作为调用方你有责任确保 `buf` 已被初始化。用一个（通过 [`MaybeUninit<T>`][10] 获取到的）未初始化的 `buf` 来调用 `read()` 是不安全的，可能会导致未定义行为。
 
 #### 错误
 
 当该方法遇到任意类型的 I/O 或其他错误时，它将返回错误。当返回错误时，必须保证没有任何字节已被读取。
 
-`ErrorKind::Interrupted` 类型错误是非致命的，如果没有其它操作那么应该重新尝试读取操作。
+[`ErrorKind::Interrupted`][11] 类型错误是非致命的，如果没有其它操作那么应该重新尝试读取操作。
 
 #### 示例
 
@@ -185,12 +185,30 @@ fn main() -> io::Result<()> {
 ## 提供的方法
 
 ```rust
-fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> Result<usize>
+fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> Result<usize>    # MSRV 1.36.0
+```
+
+与 `read` 类似，不过是接收一个缓冲区切片来进行读取操作。
+
+会按顺序将数据复制写入每一个缓冲区中，最后一个缓冲区有可能只被写入了部分数据。该方法的行为必须跟用一组串联起来的缓冲区单次调用 `read` 方法的行为一致。
+
+默认实现会选出提供的切片中第一个非空缓冲区来调用 `read`，如果没有非空的则选出第一个空缓冲区进行调用。
+
+```rust
+fn is_read_vectored(&self) -> bool    # Unstable
 ```
 
 
 
+```rust
+unsafe fn initializer(&self) -> Initializer    # Unstable
+```
 
+
+
+```rust
+fn read_to_end(&mut self, buf: &mut Vec<u8>) -> Result<usize>
+```
 
 
 [1]: https://doc.rust-lang.org/std/io/trait.Read.html
@@ -200,3 +218,7 @@ fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> Result<usize>
 [5]: https://doc.rust-lang.org/std/fs/struct.File.html
 [6]: https://doc.rust-lang.org/nightly/std/primitive.slice.html
 [7]: https://doc.rust-lang.org/nightly/std/primitive.str.html
+[8]: https://doc.rust-lang.org/std/result/enum.Result.html#variant.Err
+[9]: https://doc.rust-lang.org/std/result/enum.Result.html#variant.Ok
+[10]: https://doc.rust-lang.org/std/mem/union.MaybeUninit.html
+[11]: https://doc.rust-lang.org/std/io/enum.ErrorKind.html#variant.Interrupted
