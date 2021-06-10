@@ -88,7 +88,7 @@ pub trait Read {
 
 ### 示例
 
-`File` 实现了 `Read`：
+[`File`][5] 实现了 `Read`：
 
 ```rust
 use std::io;
@@ -119,3 +119,4 @@ fn main() -> io::Result<()> {
 [2]: https://doc.rust-lang.org/std/io/index.html
 [3]: https://doc.rust-lang.org/std/io/struct.BufReader.html
 [4]: https://doc.rust-lang.org/std/io/trait.BufRead.html
+[5]: https://doc.rust-lang.org/std/fs/struct.File.html
