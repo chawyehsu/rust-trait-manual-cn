@@ -29,7 +29,7 @@ let y = x;
 不过，如果类型实现了 `Copy`，那么它就具有“拷贝语义”：
 
 ```rust
-// 这里我们直接派生 `Copy`。因为 `Copy` 是 `Clone` 的子特质，所以也需要派生 `Clone`。
+// 这里我们直接派生 `Copy`。因为 `Copy` 是 `Clone` 的子 trait，所以也需要派生 `Clone`。
 #[derive(Debug, Copy, Clone)]
 struct Foo;
 
@@ -75,7 +75,7 @@ impl Clone for MyStruct {
 
 克隆是显式发生的，如 `x.clone()`。在实现 [`Clone`][2] 时可以为其指定任意类型独立的行为来做到安全地复制值。例如，[`String`][3] 的 `Clone` 实现是将指针指向的字符串缓冲区复制到堆上。如果对 `String` 进行简单的按位复制的话，则仅仅只是复制了它的指针，这会造成后续指针的双重释放。所以，`String` 是可 `Clone` 的而不能是可 `Copy` 的。
 
-`Clone` 是 `Copy` 的超特质，所以任何实现了 `Copy` 的类型必然实现了 `Clone`。如果一个类型是可 `Copy` 的，那么它的 `Clone` 实现就只需要返回 `*self`（见上文的例子）。
+`Clone` 是 `Copy` 的超 trait，所以任何实现了 `Copy` 的类型必然实现了 `Clone`。如果一个类型是可 `Copy` 的，那么它的 `Clone` 实现就只需要返回 `*self`（见上文的例子）。
 
 ### 什么情况下类型可实现 `Copy`？
 
