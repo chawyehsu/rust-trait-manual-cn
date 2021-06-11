@@ -194,6 +194,8 @@ fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> Result<usize>    # M
 
 默认实现会选出提供的切片中第一个非空缓冲区来调用 `read`，如果没有非空的则选出第一个空缓冲区进行调用。
 
+---
+
 ```rust
 fn is_read_vectored(&self) -> bool    # Unstable
 ```
@@ -203,6 +205,8 @@ fn is_read_vectored(&self) -> bool    # Unstable
 如果实现器没有重写默认的 `read_vectored` 实现，那么使用该实现器的代码则有可能想避免使用默认的 `read_vectored` 方法，转而将内容合并写入到单个缓冲区中以获得更高的性能。
 
 该方法默认返回 `false`。
+
+---
 
 ```rust
 unsafe fn initializer(&self) -> Initializer    # Unstable
@@ -219,6 +223,8 @@ unsafe fn initializer(&self) -> Initializer    # Unstable
 #### 安全性
 
 该方法是不安全的，因为如果是安全的话那么一个 `Read` 实现器就可以不需要 `unsafe` 就能从另一个 `Read` 实现器中获得一个非零的 `Initializer`。
+
+---
 
 ```rust
 fn read_to_end(&mut self, buf: &mut Vec<u8>) -> Result<usize>
@@ -257,6 +263,8 @@ fn main() -> io::Result<()> {
 
 （可同时查看 [`std::fs::read`][12] 了解更多读取文件的便捷方法）
 
+---
+
 ```rust
 fn read_to_string(&mut self, buf: &mut String) -> Result<usize>
 ```
@@ -290,6 +298,8 @@ fn main() -> io::Result<()> {
 ```
 
 （可同时查看 [`std::fs::read_to_string`][13] 了解更多读取文件的便捷方法）
+
+---
 
 ```rust
 fn read_exact(&mut self, buf: &mut [u8]) -> Result<()>    # MSRV 1.6.0
@@ -330,6 +340,8 @@ fn main() -> io::Result<()> {
 }
 ```
 
+---
+
 ```rust
 fn by_ref(&mut self) -> &mut Self
 where
@@ -368,6 +380,8 @@ fn main() -> io::Result<()> {
 }
 ```
 
+---
+
 ```rust
 fn bytes(self) -> Bytes<Self>
 where
@@ -396,6 +410,8 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 ```
+
+---
 
 ```rust
 fn chain<R: Read>(self, next: R) -> Chain<Self, R>
@@ -428,6 +444,8 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 ```
+
+---
 
 ```rust
 fn take(self, limit: u64) -> Take<Self>
