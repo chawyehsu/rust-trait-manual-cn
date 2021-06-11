@@ -39,7 +39,7 @@ mem::replace(&mut *pinned_string, "other".to_string());
 ## 拓展阅读
 
 - [Unpin 的实现列表][5]
-- [Rust的Pin与Unpin][6]
+- [Rust 的 Pin 与 Unpin][6]
 
 
 [1]: https://doc.rust-lang.org/core/marker/trait.Unpin.html
