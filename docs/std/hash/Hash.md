@@ -1,4 +1,4 @@
-Trait std::hash::[Hash][1]
+Trait std::`hash`::[Hash][1]
 ---
 *Stable 1.52.0*
 
