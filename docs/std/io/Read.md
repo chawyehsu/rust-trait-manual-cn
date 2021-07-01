@@ -1,5 +1,6 @@
 Trait std::io::[Read][1]
 ---
+*Stable 1.52.0*
 
 ## 签名
 

@@ -1,5 +1,6 @@
 Trait core::marker::[Sync][1]
 ---
+*Stable 1.52.0*
 
 ## 签名
 
